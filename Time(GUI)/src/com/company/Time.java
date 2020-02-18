@@ -100,7 +100,10 @@ public class Time {
             throw new TimeException("Секунды должны быть положительными");
         }
         else {
-            while(seconds>60) {
+            if(seconds<60) {
+                this.seconds+=seconds;
+            }
+            while(seconds>=60) {
                 seconds-=60;
                 addMinutes(1);
             }
