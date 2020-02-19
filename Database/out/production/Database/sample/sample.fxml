@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #2D2A40;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -11,14 +15,70 @@
          <children>
             <VBox layoutY="200.0" prefHeight="400.0" prefWidth="257.0">
                <children>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="54.0" prefWidth="257.0" style="-fx-background-color: #393351; -fx-background-radius: 30 0 0 30;" text="Button" textFill="WHITE">
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="54.0" prefWidth="257.0" style="-fx-background-color: #393351; -fx-background-radius: 30 0 0 30;" stylesheets="@../resources/css/fullpackstyling.css" text="    Главная" textFill="WHITE">
                      <graphic>
-                        <ImageView fitHeight="33.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="25.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/home.png" />
+                           </image></ImageView>
                      </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="54.0" prefWidth="257.0" style="-fx-background-color: #393351; -fx-background-radius: 30 0 0 30;" stylesheets="@../resources/css/fullpackstyling.css" text="    Пользователи" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/users.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="54.0" prefWidth="257.0" style="-fx-background-color: #393351; -fx-background-radius: 30 0 0 30;" stylesheets="@../resources/css/fullpackstyling.css" text="    Доход" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/dollar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="54.0" prefWidth="257.0" style="-fx-background-color: #393351; -fx-background-radius: 30 0 0 30;" stylesheets="@../resources/css/fullpackstyling.css" text="    Настройки" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Button>
                </children>
             </VBox>
+            <Pane layoutY="129.0" prefHeight="74.0" prefWidth="257.0" style="-fx-background-color: #674C9C;">
+               <children>
+                  <Label layoutX="26.0" layoutY="21.0" text="Главная" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
+      <ImageView fitHeight="29.0" fitWidth="29.0" layoutX="764.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/esc.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
