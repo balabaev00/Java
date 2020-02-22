@@ -17,7 +17,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setResizable(false);
-        scene.setFill(Color.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT); // Установка стиля
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
