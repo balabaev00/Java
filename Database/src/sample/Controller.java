@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -51,9 +52,6 @@ public class Controller {
     private Label label_main_name;
 
     @FXML
-    private TableView<Person> table_database;
-
-    @FXML
     private TextField field_second_name;
 
     @FXML
@@ -71,9 +69,42 @@ public class Controller {
     @FXML
     private Button btn_add_person;
 
+    /**
+     * Создание Table View
+     **/
+    private ObservableList<Person> usersData = FXCollections.observableArrayList();
+
+    @FXML
+    private TableView<Person> table_database;
+
+    @FXML
+    private TableColumn<Person, String> db_second_name;
+
+    @FXML
+    private TableColumn<Person, String> db_first_name;
+
+    @FXML
+    private TableColumn<Person, String> db_middle_name;
+
+    @FXML
+    private TableColumn<Person, Position> db_position;
+
+    @FXML
+    private TableColumn<Person, Short> db_pay;
+
+    @FXML
+    private TableColumn<Person, Short> db_id;
+
+    @FXML
+    private TextField field_del_person;
+
+    @FXML
+    private Button btn_del_person;
+
+
     @FXML
     private void handleCloseButtonAction(MouseEvent event) {
-        if(event.getTarget()==btn_close) {
+        if (event.getTarget() == btn_close) {
             Stage stage = (Stage) btn_home.getScene().getWindow();
             stage.close();
         }
@@ -81,7 +112,7 @@ public class Controller {
 
     @FXML
     private void handleHideButtonAction(MouseEvent event) {
-        if(event.getTarget()==btn_underscore) {
+        if (event.getTarget() == btn_underscore) {
             // Доработать
         }
     }
@@ -95,37 +126,51 @@ public class Controller {
             anchor_profit.setVisible(false);
             anchor_settings.setVisible(false);
             anchor_main.setVisible(true);
+        } else if (event.getTarget() == btn_users) {
+            label_main_name.setText("Пользователи");
+            anchor_users.setVisible(true);
+            anchor_profit.setVisible(false);
+            anchor_settings.setVisible(false);
+            anchor_main.setVisible(false);
+        } else if (event.getTarget() == btn_profit) {
+            label_main_name.setText("Прибыль");
+            anchor_users.setVisible(false);
+            anchor_profit.setVisible(true);
+            anchor_settings.setVisible(false);
+            anchor_main.setVisible(false);
+        } else if (event.getTarget() == btn_settings) {
+            label_main_name.setText("Настройки");
+            anchor_users.setVisible(false);
+            anchor_profit.setVisible(false);
+            anchor_settings.setVisible(true);
+            anchor_main.setVisible(false);
         }
-        else
-            if(event.getTarget()==btn_users) {
-                label_main_name.setText("Пользователи");
-                anchor_users.setVisible(true);
-                anchor_profit.setVisible(false);
-                anchor_settings.setVisible(false);
-                anchor_main.setVisible(false);
-            }
-            else
-                if(event.getTarget()==btn_profit) {
-                    label_main_name.setText("Прибыль");
-                    anchor_users.setVisible(false);
-                    anchor_profit.setVisible(true);
-                    anchor_settings.setVisible(false);
-                    anchor_main.setVisible(false);
-                }
-                else
-                    if (event.getTarget()==btn_settings) {
-                        label_main_name.setText("Настройки");
-                        anchor_users.setVisible(false);
-                        anchor_profit.setVisible(false);
-                        anchor_settings.setVisible(true);
-                        anchor_main.setVisible(false);
-                    }
     }
 
+    @FXML
+    private void handleAddUserAction(MouseEvent event) {
+        if (event.getTarget() == btn_add_person) {
+            Person person = new Person(field_second_name.getText(),field_first_name.getText(),field_middle_name.getText(),Position.Junior, (short) 1,Short.parseShort(field_salary.getText()));
+            usersData.add(person);
+        }
+    }
+
+    private void initTableView() {
+        /**Устанавливаем тип и значение которое должно хранится в колонке**/
+        db_second_name.setCellValueFactory(new PropertyValueFactory<Person,String>("secondName"));
+        db_first_name.setCellValueFactory(new PropertyValueFactory<Person,String>("firstName"));
+        db_middle_name.setCellValueFactory(new PropertyValueFactory<Person,String>("middleName"));
+        db_position.setCellValueFactory(new PropertyValueFactory<Person,Position>("position"));
+        db_pay.setCellValueFactory(new PropertyValueFactory<Person,Short>("pay"));
+        db_id.setCellValueFactory(new PropertyValueFactory<Person,Short>("id"));
+        /**Заполняем таблицу данными из коллекции UsersData**/
+        table_database.setItems(usersData);
+    }
 
     @FXML
     void initialize() {
         /**Установка вариантов для Choise Box**/
-        choise_position.setItems(FXCollections.observableArrayList(Position.Junior,Position.Middle,Position.Senior,Position.Директор));
+        choise_position.setItems(FXCollections.observableArrayList(Position.Junior, Position.Middle, Position.Senior, Position.Директор));
+        initTableView();
     }
 }

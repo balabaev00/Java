@@ -5,14 +5,16 @@ public class Person {
     private String firstName; // Имя
     private String middleName; // Отчество
     private Position position; // Должность
+    private short pay; // Зарплата
     private short id; // ID
 
-    public Person(String secondName, String firstName, String middleName, Position position, short id) {
+    public Person(String secondName, String firstName, String middleName, Position position, short id, short pay) {
        setSecondName(secondName);
        setFirstName(firstName);
        setMiddleName(middleName);
        setPosition(position);
        setId(id);
+       setPay(pay);
     }
 
     public String getSecondName() {
@@ -53,5 +55,13 @@ public class Person {
 
     public void setId(short id) {
         this.id = id;
+    }
+
+    public short getPay() {
+        return pay;
+    }
+
+    public void setPay(short pay) {
+        this.pay = pay;
     }
 }

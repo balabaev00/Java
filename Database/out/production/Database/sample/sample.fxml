@@ -109,12 +109,12 @@
          <children>
             <TableView fx:id="table_database" layoutX="6.0" layoutY="366.0" prefHeight="316.0" prefWidth="543.0" styleClass="table-row-cell" stylesheets="@../resources/css/fullpackstyling.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <columns>
-                <TableColumn prefWidth="100.0" resizable="false" text="Фамилия" />
-                <TableColumn prefWidth="100.0" resizable="false" text="Имя" />
-                  <TableColumn prefWidth="100.0" resizable="false" text="Отчество" />
-                  <TableColumn prefWidth="100.0" resizable="false" text="Должность" />
-                  <TableColumn resizable="false" text="Оклад" />
-                  <TableColumn prefWidth="63.0" resizable="false" text="ID" />
+                <TableColumn fx:id="db_second_name" prefWidth="100.0" resizable="false" text="Фамилия" />
+                <TableColumn fx:id="db_first_name" prefWidth="100.0" resizable="false" text="Имя" />
+                  <TableColumn fx:id="db_middle_name" prefWidth="100.0" resizable="false" text="Отчество" />
+                  <TableColumn fx:id="db_position" prefWidth="100.0" resizable="false" text="Должность" />
+                  <TableColumn fx:id="db_pay" resizable="false" text="Оклад" />
+                  <TableColumn fx:id="db_id" prefWidth="63.0" resizable="false" text="ID" />
               </columns>
             </TableView>
             <Label layoutX="14.0" layoutY="30.0" text="Фамилия" textFill="WHITE">
@@ -147,7 +147,7 @@
             <TextField fx:id="field_middle_name" layoutX="82.0" layoutY="100.0" />
             <TextField fx:id="field_salary" layoutX="340.0" layoutY="65.0" />
             <ChoiceBox fx:id="choise_position" layoutX="340.0" layoutY="28.0" prefWidth="150.0" />
-            <Button fx:id="btn_add_person" layoutX="266.0" layoutY="104.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" text="Добавить" />
+            <Button fx:id="btn_add_person" layoutX="266.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#handleAddUserAction" prefHeight="25.0" prefWidth="225.0" text="Добавить" />
          </children>
       </AnchorPane>
    </children>
