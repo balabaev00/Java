@@ -166,9 +166,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button fx:id="btn_del_person" layoutX="283.0" layoutY="203.0" mnemonicParsing="false" onMouseClicked="#handleAddUserAction" prefHeight="25.0" prefWidth="225.0" text="Удалить" />
+            <Button fx:id="btn_del_person" layoutX="283.0" layoutY="203.0" mnemonicParsing="false" onMouseClicked="#handleDelUserAction" prefHeight="25.0" prefWidth="225.0" text="Удалить" />
+            <Line endX="390.0" layoutX="129.0" layoutY="163.0" startX="-100.0" stroke="WHITE" />
          </children>
       </AnchorPane>
-      <Line endX="390.0" layoutX="389.0" layoutY="198.0" startX="-100.0" stroke="WHITE" />
    </children>
 </AnchorPane>
