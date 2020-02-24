@@ -1,6 +1,8 @@
 package sample;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
     private String secondName; // Фамилия
     private String firstName; // Имя
     private String middleName; // Отчество
