@@ -1,35 +1,36 @@
 package sample;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.ShortStringConverter;
 
 import java.io.*;
-import java.security.cert.Extension;
+import java.security.Key;
 import java.util.ArrayList;
-import java.util.List;
 
 //TODO
-// 1 - fix Position add
+// 1 - fix Position add (+)
 // 2 - add search
 // 3 - add icon program
 // 4 - info of program developer
-// 5 - hot key
+// 5 - hot key (+-)
 // 6 - auto save database
 // 7 - small info of program
 // 8 - сворачивание программы
@@ -90,12 +91,17 @@ public class Controller {
     @FXML
     private Button btn_add_person;
 
+    /**Для хранения имени файла сохранения**/
+    private String filename;
+
     /**
      * Создание Table View
      **/
     private ObservableList<Person> usersData = FXCollections.observableArrayList();
 
-    /**ObservableList convert to ArrayList**/
+    /**
+     * ObservableList convert to ArrayList
+     **/
     private ArrayList<Person> toArrayList(ObservableList<Person> usersData) {
         ArrayList<Person> usersDataArray = new ArrayList<Person>();
         for (int i = 0; i < usersData.size(); i++) {
@@ -104,7 +110,9 @@ public class Controller {
         return usersDataArray;
     }
 
-    /**ArrayList convert to ObservableList **/
+    /**
+     * ArrayList convert to ObservableList
+     **/
     private ObservableList<Person> toObservableList(ArrayList<Person> usersData) {
         ObservableList<Person> observableList = FXCollections.observableArrayList();
         for (int i = 0; i < usersData.size(); i++) {
@@ -138,13 +146,20 @@ public class Controller {
     private TextField field_del_person;
 
     @FXML
-    private Button btn_del_person;
+    private ImageView img_open;
 
     @FXML
-    private Button btn_open_file;
+    private ImageView img_save;
 
     @FXML
-    private Button btn_save_file;
+    private ImageView img_faq;
+
+    @FXML
+    private Label label_autosave;
+
+    private boolean faqFlag = false;
+
+    private Thread autoSave;
 
 
     @FXML
@@ -167,12 +182,10 @@ public class Controller {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT Files", "*.txt"));
         /**Открываем openDialog**/
         File file = fileChooser.showOpenDialog(null);
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file.getName())))
-        {
-            usersData=toObservableList((ArrayList<Person>)ois.readObject());
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file.getName()))) {
+            usersData = toObservableList((ArrayList<Person>) ois.readObject());
             table_database.setItems(usersData);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
             alert.setHeaderText(null);
@@ -188,11 +201,10 @@ public class Controller {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT Files", "*.txt"));
         /**Открываем saveDialog**/
         File file = fileChooser.showSaveDialog(null);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file.getName())))
-        {
+        filename = file.getName();
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file.getName()))) {
             oos.writeObject(toArrayList(usersData));
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
             alert.setHeaderText(null);
@@ -201,37 +213,65 @@ public class Controller {
         }
     }
 
-    @FXML
-    /**Обработка отображения кнопок из меню**/
-    private void handleMainButtonAction(MouseEvent event) {
-        if (event.getTarget() == btn_home) {
-            label_main_name.setText("Главная");
-            anchor_users.setVisible(false);
-            anchor_edit.setVisible(false);
-            anchor_settings.setVisible(false);
-            anchor_main.setVisible(true);
-        } else if (event.getTarget() == btn_users) {
-            label_main_name.setText("Пользователи");
-            anchor_users.setVisible(true);
-            anchor_edit.setVisible(false);
-            anchor_settings.setVisible(false);
-            anchor_main.setVisible(false);
-        } else if (event.getTarget() == btn_edit) {
-            label_main_name.setText("Редактирование");
-            anchor_users.setVisible(false);
-            anchor_edit.setVisible(true);
-            anchor_settings.setVisible(false);
-            anchor_main.setVisible(false);
-        } else if (event.getTarget() == btn_settings) {
-            label_main_name.setText("Настройки");
-            anchor_users.setVisible(false);
-            anchor_edit.setVisible(false);
-            anchor_settings.setVisible(true);
-            anchor_main.setVisible(false);
+    /**
+     * Костыль всех костылей
+     **/
+    private void faqBool() {
+        /**My name is "Костыль"**/
+        if (faqFlag == false) {
+            setHotKey();
+            faqFlag = true;
         }
     }
 
-    /**Проверка всех полей для добавления сотрудника**/
+    @FXML
+    /**Обработка кнопки Главная из кнопок меню**/
+    private void handleMainButtonAction() {
+        faqBool();
+        label_main_name.setText("Главная");
+        anchor_users.setVisible(false);
+        anchor_edit.setVisible(false);
+        anchor_settings.setVisible(false);
+        anchor_main.setVisible(true);
+    }
+
+    @FXML
+    /**Обработка кнопки Пользователи из кнопок меню**/
+    private void handleUsersButtonAction() {
+        faqBool();
+        label_main_name.setText("Пользователи");
+        anchor_users.setVisible(true);
+        anchor_edit.setVisible(false);
+        anchor_settings.setVisible(false);
+        anchor_main.setVisible(false);
+    }
+
+
+    @FXML
+    /**Обработка кнопки Редактирование из кнопок меню**/
+    private void handleEditButtonAction() {
+        faqBool();
+        label_main_name.setText("Редактирование");
+        anchor_users.setVisible(false);
+        anchor_edit.setVisible(true);
+        anchor_settings.setVisible(false);
+        anchor_main.setVisible(false);
+    }
+
+    @FXML
+    /**Обработка кнопки Настройки из кнопок меню**/
+    private void handleSettingsButtonAction() {
+        faqBool();
+        label_main_name.setText("Настройки");
+        anchor_users.setVisible(false);
+        anchor_edit.setVisible(false);
+        anchor_settings.setVisible(true);
+        anchor_main.setVisible(false);
+    }
+
+    /**
+     * Проверка всех полей для добавления сотрудника
+     **/
     private boolean checkAdd() {
         boolean flag = false;
         Position temp = (Position) choise_position.getValue();
@@ -302,13 +342,15 @@ public class Controller {
         return flag;
     }
 
-    /**Генерация не повторяющихся ID**/
+    /**
+     * Генерация не повторяющихся ID
+     **/
     private short generateId() {
-        short random = (short) (80 + Math.random()*1000);
+        short random = (short) (80 + Math.random() * 1000);
         for (int i = 0; i < usersData.size(); i++) {
-            if(usersData.get(i).getId()==random) {
-                i=0;
-                random = (short) (80 + Math.random()*1000);
+            if (usersData.get(i).getId() == random) {
+                i = 0;
+                random = (short) (80 + Math.random() * 1000);
             }
         }
         return random;
@@ -318,7 +360,7 @@ public class Controller {
     /**Добавление сотрудника в список**/
     private void handleAddUserAction() {
         if (checkAdd() == false) {
-            usersData.add(new Person(field_second_name.getText(), field_first_name.getText(), field_middle_name.getText(), Position.Junior, generateId(), Short.parseShort(field_salary.getText())));
+            usersData.add(new Person(field_second_name.getText(), field_first_name.getText(), field_middle_name.getText(), (Position) choise_position.getValue(), generateId(), Short.parseShort(field_salary.getText())));
         }
     }
 
@@ -330,7 +372,7 @@ public class Controller {
             String id = field_del_person.getText();
             if (!id.equals("")) {
                 for (int i = 0; i < usersData.size(); i++) {
-                    if (usersData.get(i).getId()==Short.parseShort(id)) {
+                    if (usersData.get(i).getId() == Short.parseShort(id)) {
                         usersData.remove(i);
                         count++;
                         i--;
@@ -378,33 +420,74 @@ public class Controller {
     }
 
     @FXML
-    void initialize() {
-        /**Установка вариантов для Choise Box**/
-        choise_position.setItems(FXCollections.observableArrayList(Position.Junior, Position.Middle, Position.Senior, Position.Director));
-        initTableView();
-    }
-
     /**Редактирование ячеек Фамилии**/
-    public void onEditSecondName(TableColumn.CellEditEvent<Person, String> personStringCellEditEvent) {
+    private void onEditSecondName(TableColumn.CellEditEvent<Person, String> personStringCellEditEvent) {
         Person person = table_database.getSelectionModel().getSelectedItem();
         person.setSecondName(personStringCellEditEvent.getNewValue());
     }
 
+    @FXML
     /**Редактирование ячеек Имени**/
-    public void onEditFirstName(TableColumn.CellEditEvent<Person, String> personStringCellEditEvent) {
+    private void onEditFirstName(TableColumn.CellEditEvent<Person, String> personStringCellEditEvent) {
         Person person = table_database.getSelectionModel().getSelectedItem();
         person.setFirstName(personStringCellEditEvent.getNewValue());
     }
 
+    @FXML
     /**Редактирование ячеек Отчества**/
-    public void onEditMiddleName(TableColumn.CellEditEvent<Person, String> personStringCellEditEvent) {
+    private void onEditMiddleName(TableColumn.CellEditEvent<Person, String> personStringCellEditEvent) {
         Person person = table_database.getSelectionModel().getSelectedItem();
         person.setMiddleName(personStringCellEditEvent.getNewValue());
     }
 
+    @FXML
     /**Редактирование ячеек Оклада**/
-    public void onEditPayName(TableColumn.CellEditEvent<Person, Short> personStringCellEditEvent) {
+    private void onEditPayName(TableColumn.CellEditEvent<Person, Short> personStringCellEditEvent) {
         Person person = table_database.getSelectionModel().getSelectedItem();
         person.setPay(personStringCellEditEvent.getNewValue());
+    }
+
+    /**
+     * FAQ
+     **/
+    @FXML
+    private void handleFAQAction() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("faq.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+
+    @FXML
+    /**Установка горячих клавиш**/
+    private void setHotKey() {
+        Stage stage = (Stage) img_open.getScene().getWindow();
+        Scene scene = stage.getScene();
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode().getName().equals("F1")) {
+                handleOpenFileAction();
+            } else if (event.getCode().getName().equals("F2")) {
+                handleSaveFileAction();
+            } else if (event.getCode().getName().equals("F3")) {
+                try {
+                    handleFAQAction();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void autoSave(int seconds) {
+
+    }
+
+    @FXML
+    void initialize() {
+        /**Установка вариантов для Choise Box**/
+        choise_position.setItems(FXCollections.observableArrayList(Position.Junior, Position.Middle, Position.Senior, Position.Director));
+        initTableView();
     }
 }
