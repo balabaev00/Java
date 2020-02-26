@@ -66,4 +66,8 @@ public class Person implements Serializable {
     public void setPay(short pay) {
         this.pay = pay;
     }
+
+    public String toString() {
+        return "Фамилия : " + getSecondName() + " | " + "Имя : " + getFirstName() + " | " + "Отчество : " + getMiddleName() + " | " + "ID :" + getId();
+    }
 }

@@ -2,6 +2,8 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 // 3 - add icon program
 // 4 - info of program developer
 // 5 - hot key (+-)
-// 6 - auto save database
+// 6 - auto save database (+)
 // 7 - small info of program
 // 8 - сворачивание программы
 
@@ -86,7 +88,13 @@ public class Controller {
     private TextField field_salary;
 
     @FXML
+    private TextField field_search_data;
+
+    @FXML
     private ChoiceBox choise_position;
+
+    @FXML
+    private ChoiceBox choice_del_person;
 
     @FXML
     private Button btn_add_person;
@@ -120,6 +128,7 @@ public class Controller {
         }
         return observableList;
     }
+
 
     @FXML
     private TableView<Person> table_database;
@@ -157,14 +166,24 @@ public class Controller {
     @FXML
     private Label label_autosave;
 
+    @FXML
+    private Button btn_search_person;
+
     private boolean faqFlag = false;
 
-    private Thread autoSave;
+    private Autosave autosave;
 
+    private void initAutoSave(int second) {
+        autosave = new Autosave(null,label_autosave,usersData);
+        autosave.setSecond(second);
+    }
 
     @FXML
     private void handleCloseButtonAction() {
         Stage stage = (Stage) btn_home.getScene().getWindow();
+        autosave.setFlag(false);
+        if(autosave.isAlive())
+            autosave.interrupt();
         stage.close();
     }
 
@@ -182,9 +201,14 @@ public class Controller {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT Files", "*.txt"));
         /**Открываем openDialog**/
         File file = fileChooser.showOpenDialog(null);
+        autosave.setFile(file);
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file.getName()))) {
             usersData = toObservableList((ArrayList<Person>) ois.readObject());
             table_database.setItems(usersData);
+            autosave.setList(usersData);
+            if(!autosave.isAlive())
+                autosave.start();
+
         } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
@@ -201,9 +225,12 @@ public class Controller {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT Files", "*.txt"));
         /**Открываем saveDialog**/
         File file = fileChooser.showSaveDialog(null);
+        autosave.setFile(file);
         filename = file.getName();
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file.getName()))) {
             oos.writeObject(toArrayList(usersData));
+            if(!autosave.isAlive())
+                autosave.start();
         } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
@@ -365,38 +392,131 @@ public class Controller {
     }
 
     @FXML
-    /**Удаление из списка по ID**/
+    /**Удаление из списка**/
     private void handleDelUserAction() {
         if (usersData.size() != 0) {
             short count = 0;
-            String id = field_del_person.getText();
-            if (!id.equals("")) {
-                for (int i = 0; i < usersData.size(); i++) {
-                    if (usersData.get(i).getId() == Short.parseShort(id)) {
-                        usersData.remove(i);
-                        count++;
-                        i--;
+            String text = field_del_person.getText();
+            String choiceBox = (String) choice_del_person.getValue();
+            if (!text.equals("")) {
+                if (choiceBox != null) {
+                    if (choiceBox.equals("ID")) {
+                        for (int i = 0; i < usersData.size(); i++) {
+                            if (usersData.get(i).getId() == Short.parseShort(text)) {
+                                usersData.remove(i);
+                                count++;
+                                i--;
+                            }
+                        }
+                    } else if (choiceBox.equals("Фамилия")) {
+                        for (int i = 0; i < usersData.size(); i++) {
+                            if (usersData.get(i).getSecondName().equals(text)) {
+                                usersData.remove(i);
+                                count++;
+                                i--;
+                            }
+                        }
+                    } else if (choiceBox.equals("Имя")) {
+                        for (int i = 0; i < usersData.size(); i++) {
+                            if (usersData.get(i).getFirstName().equals(text)) {
+                                usersData.remove(i);
+                                count++;
+                                i--;
+                            }
+                        }
+                    } else if (choiceBox.equals("Отчество")) {
+                        for (int i = 0; i < usersData.size(); i++) {
+                            if (usersData.get(i).getMiddleName().equals(text)) {
+                                usersData.remove(i);
+                                count++;
+                                i--;
+                            }
+                        }
                     }
-                }
-                if (count == 0) {
+                    if (count == 0) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Информация");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Сотрудник по заданным параметрам не найден!");
+                        alert.showAndWait();
+                    }
+                    else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Информация");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Сотрудник удален!");
+                        alert.showAndWait();
+                    }
+                } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Информация");
                     alert.setHeaderText(null);
-                    alert.setContentText("Сотрудник с данным ID не найден!");
+                    alert.setContentText("Выберите параметр для поиска!");
                     alert.showAndWait();
                 }
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Ошибка");
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Информация");
                 alert.setHeaderText(null);
-                alert.setContentText("Введите ID сотрудника!");
+                alert.setContentText("Введите параметр для поиска!");
                 alert.showAndWait();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Предупреждение");
+            alert.setTitle("Информация");
             alert.setHeaderText(null);
             alert.setContentText("Список сотрудников пуст!");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    /**Поиск сотрудника в списке**/
+    private void handleFindPerson() {
+        String text = field_search_data.getText();
+        String result = null;
+        short count=0;
+        if(!text.equals("")) {
+            for (int i = 0; i < usersData.size() ; i++) {
+                if(usersData.get(i).getSecondName().equals(text)) {
+                    if (count==0) {
+                        result="";
+                        count++;
+                    }
+                    result+=usersData.get(i).toString() + "\n";
+                } else if(usersData.get(i).getFirstName().equals(text)) {
+                    if (count==0) {
+                        result="";
+                        count++;
+                    }
+                    result+=usersData.get(i).toString() + "\n";
+                }
+                else if(usersData.get(i).getMiddleName().equals(text)) {
+                    if (count==0) {
+                        result="";
+                        count++;
+                    }
+                    result+=usersData.get(i).toString() + "\n";
+                }
+            }
+            if (result==null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Информация");
+                alert.setHeaderText(null);
+                alert.setContentText("Сотрудник не найден!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Информация");
+                alert.setHeaderText(null);
+                alert.setContentText("Найдены: \n" + result);
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Информация");
+            alert.setHeaderText(null);
+            alert.setContentText("Введите параметр для поиска!");
             alert.showAndWait();
         }
     }
@@ -480,14 +600,13 @@ public class Controller {
         });
     }
 
-    private void autoSave(int seconds) {
-
-    }
-
     @FXML
     void initialize() {
+        /**Настраиваем поток**/
+        initAutoSave(120);
         /**Установка вариантов для Choise Box**/
         choise_position.setItems(FXCollections.observableArrayList(Position.Junior, Position.Middle, Position.Senior, Position.Director));
+        choice_del_person.setItems(FXCollections.observableArrayList(new String("Фамилия"),new String("Имя"),new String("Отчество"),new String("ID")));
         initTableView();
     }
 }
