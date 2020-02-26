@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -22,6 +23,8 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setResizable(false);
         scene.setFill(Color.TRANSPARENT); // Установка стиля
+        Image applicationIcon = new Image(getClass().getResourceAsStream("icon.png"));
+        primaryStage.getIcons().add(applicationIcon);
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
