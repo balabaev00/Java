@@ -19,6 +19,25 @@ public class Person implements Serializable {
        setPay(pay);
     }
 
+    public static boolean checkInfo(String secondName,String firstName,String middleName, short pay, Position position) {
+        if(secondName.equals("") || secondName.length()<2) {
+            return true;
+        } else
+        if(firstName.equals("") || firstName.length()<2) {
+            return true;
+        } else
+        if(middleName.equals("") || middleName.length()<2) {
+            return true;
+        } else
+            if(pay<1) {
+                return true;
+            } else
+            if(position==null) {
+                return true;
+            } else
+                return false;
+    }
+
     public String getSecondName() {
         return secondName;
     }

@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -29,9 +32,9 @@ import java.util.ArrayList;
 
 //TODO
 // 1 - fix Position add (+)
-// 2 - add search
-// 3 - add icon program
-// 4 - info of program developer
+// 2 - add search (+)
+// 3 - add icon program (+)
+// 4 - info of program developer (+)
 // 5 - hot key (+-)
 // 6 - auto save database (+)
 // 7 - small info of program
@@ -47,9 +50,6 @@ public class Controller {
 
     @FXML
     private AnchorPane anchor_edit;
-
-    @FXML
-    private AnchorPane anchor_settings;
 
     @FXML
     private AnchorPane anchor_main;
@@ -98,6 +98,8 @@ public class Controller {
 
     @FXML
     private Button btn_add_person;
+
+    private String version = "Версия программы 1.0";
 
     /**Для хранения имени файла сохранения**/
     private String filename;
@@ -188,10 +190,12 @@ public class Controller {
     }
 
     @FXML
-    private void handleHideButtonAction(MouseEvent event) {
-        if (event.getTarget() == btn_underscore) {
-            // Доработать
-        }
+    private void handleHideButtonAction() {
+        Stage stage = (Stage) btn_close.getScene().getWindow();
+        // Доработать
+        stage.iconifiedProperty().addListener( ( ov, t, t1 ) -> {
+            Platform.runLater( stage::hide );
+        });
     }
 
     @FXML
@@ -258,7 +262,6 @@ public class Controller {
         label_main_name.setText("Главная");
         anchor_users.setVisible(false);
         anchor_edit.setVisible(false);
-        anchor_settings.setVisible(false);
         anchor_main.setVisible(true);
     }
 
@@ -269,7 +272,6 @@ public class Controller {
         label_main_name.setText("Пользователи");
         anchor_users.setVisible(true);
         anchor_edit.setVisible(false);
-        anchor_settings.setVisible(false);
         anchor_main.setVisible(false);
     }
 
@@ -281,7 +283,6 @@ public class Controller {
         label_main_name.setText("Редактирование");
         anchor_users.setVisible(false);
         anchor_edit.setVisible(true);
-        anchor_settings.setVisible(false);
         anchor_main.setVisible(false);
     }
 
@@ -292,7 +293,6 @@ public class Controller {
         label_main_name.setText("Настройки");
         anchor_users.setVisible(false);
         anchor_edit.setVisible(false);
-        anchor_settings.setVisible(true);
         anchor_main.setVisible(false);
     }
 
@@ -302,69 +302,9 @@ public class Controller {
     private boolean checkAdd() {
         boolean flag = false;
         Position temp = (Position) choise_position.getValue();
-        if (field_second_name.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Введите фамилию!");
-            alert.showAndWait();
-            flag = true;
-        } else if (field_second_name.getText().length() < 2) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Длина фамилии слишком маленькая!");
-            alert.showAndWait();
-            flag = true;
-        } else if (field_first_name.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Введите имя!");
-            alert.showAndWait();
-            flag = true;
-        } else if (field_first_name.getText().length() < 2) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Длина имени слишком маленькая!");
-            alert.showAndWait();
-            flag = true;
-        } else if (field_middle_name.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Введите отчество!");
-            alert.showAndWait();
-            flag = true;
-        } else if (field_middle_name.getText().length() < 2) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Длина отчества слишком маленькая!");
-            alert.showAndWait();
-            flag = true;
-        } else if (temp == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Выберите должность сотрудника!");
-            alert.showAndWait();
-            flag = true;
-        } else if (field_salary.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Введите зарплату сотрудника!");
-            alert.showAndWait();
-            flag = true;
-        } else if (Short.parseShort(field_salary.getText()) < 1) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Зарплата сотрудника должна быть > 0");
-            alert.showAndWait();
-            flag = true;
+        if(Person.checkInfo(field_second_name.getText(),field_first_name.getText(),field_middle_name.getText(),
+                Short.parseShort(field_salary.getText()),temp)) {
+            flag=true;
         }
         return flag;
     }
@@ -603,7 +543,7 @@ public class Controller {
     @FXML
     void initialize() {
         /**Настраиваем поток**/
-        initAutoSave(120);
+        initAutoSave(30);
         /**Установка вариантов для Choise Box**/
         choise_position.setItems(FXCollections.observableArrayList(Position.Junior, Position.Middle, Position.Senior, Position.Director));
         choice_del_person.setItems(FXCollections.observableArrayList(new String("Фамилия"),new String("Имя"),new String("Отчество"),new String("ID")));
