@@ -286,16 +286,6 @@ public class Controller {
         anchor_main.setVisible(false);
     }
 
-    @FXML
-    /**Обработка кнопки Настройки из кнопок меню**/
-    private void handleSettingsButtonAction() {
-        faqBool();
-        label_main_name.setText("Настройки");
-        anchor_users.setVisible(false);
-        anchor_edit.setVisible(false);
-        anchor_main.setVisible(false);
-    }
-
     /**
      * Проверка всех полей для добавления сотрудника
      **/
@@ -414,43 +404,32 @@ public class Controller {
     /**Поиск сотрудника в списке**/
     private void handleFindPerson() {
         String text = field_search_data.getText();
-        String result = null;
-        short count=0;
-        if(!text.equals("")) {
-            for (int i = 0; i < usersData.size() ; i++) {
-                if(usersData.get(i).getSecondName().equals(text)) {
-                    if (count==0) {
-                        result="";
-                        count++;
+        boolean flag = false;
+        if(!text.equals("") && usersData.size()>0) {
+            for (int i = 0; i < usersData.size(); i++) {
+                if(flag==false && usersData.get(i).getSecondName().equals(text)) {
+                    flag=true;
+                    table_database.getSelectionModel().select(i);
+                    break;
+                } else
+                    if(flag==false && usersData.get(i).getFirstName().equals(text)) {
+                        flag=true;
+                        table_database.getSelectionModel().select(i);
+                        break;
+                    } else
+                    if(flag==false && usersData.get(i).getMiddleName().equals(text)) {
+                        flag = true;
+                        table_database.getSelectionModel().select(i);
+                        break;
                     }
-                    result+=usersData.get(i).toString() + "\n";
-                } else if(usersData.get(i).getFirstName().equals(text)) {
-                    if (count==0) {
-                        result="";
-                        count++;
-                    }
-                    result+=usersData.get(i).toString() + "\n";
-                }
-                else if(usersData.get(i).getMiddleName().equals(text)) {
-                    if (count==0) {
-                        result="";
-                        count++;
-                    }
-                    result+=usersData.get(i).toString() + "\n";
-                }
             }
-            if (result==null) {
+            if (flag == false) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Информация");
                 alert.setHeaderText(null);
                 alert.setContentText("Сотрудник не найден!");
                 alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Информация");
-                alert.setHeaderText(null);
-                alert.setContentText("Найдены: \n" + result);
-                alert.showAndWait();
+                table_database.getSelectionModel().clearSelection();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
