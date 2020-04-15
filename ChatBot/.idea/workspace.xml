@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information.csv" beforeDir="false" afterPath="$PROJECT_DIR$/information.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ChatBot/sample/Greeting.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChatBot/sample/Greeting.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ChatBot/sample/PrimaryWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChatBot/sample/PrimaryWindow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/ChatBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ChatBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/PrimaryWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/PrimaryWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/primaryWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/primaryWindow.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,8 +74,12 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectId" id="1aKX67WTbLWHq16mzCRFARJG3ER" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
@@ -211,14 +225,18 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="552" y="219" key="#Inspections" timestamp="1586919017914">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="552" y="219" key="#Inspections/0.40.1920.1040@0.40.1920.1040" timestamp="1586919017914" />
     <state x="552" y="219" key="#Project_Structure" timestamp="1586485096974">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="552" y="219" key="#Project_Structure/0.40.1920.1040@0.40.1920.1040" timestamp="1586485096974" />
-    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser" timestamp="1586757005650">
+    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser" timestamp="1586918853833">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser/0.40.1920.1040@0.40.1920.1040" timestamp="1586757005650" />
+    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser/0.40.1920.1040@0.40.1920.1040" timestamp="1586918853833" />
     <state x="690" y="308" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586753614889">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
@@ -227,22 +245,22 @@
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="739" y="302" key="FileChooserDialogImpl/0.40.1920.1040@0.40.1920.1040" timestamp="1586659831966" />
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1586765551741">
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1586921504747">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
-    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1586765551741">
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504747" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1586921504747">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.center/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
-    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1586765551740">
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504747" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1586921504746">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.left/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551740" />
-    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1586765551741">
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504746" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1586921504747">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.right/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504747" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586765551741">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>

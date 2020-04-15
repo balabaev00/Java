@@ -23,7 +23,7 @@
                   <Image url="@../image/sent.png" />
                </image>
             </ImageView>
-            <TextArea fx:id="textArea" layoutY="36.0" prefHeight="374.0" prefWidth="343.0">
+            <TextArea fx:id="textArea" editable="false" layoutY="36.0" prefHeight="374.0" prefWidth="343.0">
                <font>
                   <Font size="15.0" />
                </font>

@@ -31,9 +31,11 @@ public class PrimaryWindow {
 
     @FXML
     private void send() {
-        System.out.println(bob);
-        String message = bob.getUserName()+" : " + messageField.getText() + "\n";
-        textArea.setText(textArea.getText() + message); // Отправка сообщения
+        String userMessage = bob.getUserName()+" : " + messageField.getText() + "\n";
+        textArea.setText(textArea.getText() + userMessage); // Отправка сообщения пользователя
+        String botMessage = bob.getBotName() + " : " + bob.say(messageField.getText()) + "\n";
+        textArea.setText(textArea.getText() + botMessage);
+        messageField.setText("");
     }
 
     public void start(Stage primaryStage) throws Exception {
