@@ -1,7 +1,9 @@
 package sample;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import parser.MatchParser;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -9,6 +11,16 @@ public class ChatBot extends Bot {
 
     private Random random;
     private Pattern pattern;
+    private boolean stupidAnswer;
+    private boolean saveFlag;
+
+    public boolean isStupidAnswer() {
+        return stupidAnswer;
+    }
+
+    public void setStupidAnswer(boolean stupidAnswer) {
+        this.stupidAnswer = stupidAnswer;
+    }
 
     final private String[] simplePhrases = {
             "Нет ничего ценнее слов, сказанных к месту и ко времени.",
@@ -72,9 +84,19 @@ public class ChatBot extends Bot {
         put("который\\s.*час", "whattime");
         put("сколько\\s.*время", "whattime");
         // bye
+        put("пока","bye");
         put("прощай", "bye");
         put("увидимся", "bye");
         put("до\\s.*свидания", "bye");
+        // math parser
+        put("посчитай\\s?\\d+\\s?","parser");
+        // info
+        put("/info","information");
+        put("/saveon","saveon");
+        put("/saveoff","saveoff");
+        put("/fileclean","fileclean");
+        put("/onstupidbot","onstupidbot");
+        put("/offstupidbot","offstupidbot");
     }};
 
     final Map<String, String> answersByKeys = new HashMap<String, String>() {{
@@ -87,16 +109,25 @@ public class ChatBot extends Bot {
         put("iamfeelling", "Как давно это началось? Расскажите чуть подробнее.");
         put("yes", "Согласие есть продукт при полном непротивлении сторон.");
         put("bye", "До свидания. Надеюсь, ещё увидимся.");
+        put("information","\nСписок команд : \n" + "/info - информация о всех командах.\n" +
+                "/saveon - включить сохранение диалога.\n" + "/saveoff - отключить сохранение диалога.\n" +
+                 "/fileclean - очищение текстового файла.\n" + "/onstupidbot - включает глупого бота.\n" +
+                "/offstupidbot - выключает глупого бота.\n" + "/loaddialog - загрузить диалог из файла\n");
+        put("saveon","Сохранение диалога включено.");
+        put("saveoff","Сохранение диалога выключено.");
+        put("fileclean","Текстовый файл очищен.");
+        put("onstupidbot","Глупый бот включен.");
+        put("offstupidbot","Глупый бот выключен.");
     }};
 
     public ChatBot() {
         super();
         random = new Random();
+        stupidAnswer = false;
     }
 
     @Override
     public String say(String message) {
-        boolean stupidAnswer = false;
         if(stupidAnswer) {
             String say = message.trim().endsWith("?")?illusionAnswer[random.nextInt(illusionAnswer.length)]:simplePhrases[random.nextInt(simplePhrases.length)];
             return say;
@@ -111,10 +142,48 @@ public class ChatBot extends Bot {
                 /*Есть ли такой ключ*/
                 if (pattern.matcher(temp).find())
                     if (i.getValue().equals("whattime")) return new Date().toString();
-                    else return answersByKeys.get(i.getValue());
+                    else if(i.getValue().equals("parser")) {
+                        String[] valueMassive = message.split(" ");
+                        String value = valueMassive[1];
+                        MatchParser parser = new MatchParser();
+                        double result = 0;
+                        try {
+                            result = parser.Parse(value);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return "Результат = " + result;
+                    } else
+                        return answersByKeys.get(i.getValue());
             }
         }
-        return null;
+        return "Я вас не понимаю.";
+    }
+
+    public String checkFunction(String message) throws IOException {
+        String temp = new String();
+        if(message.equals("/saveon")) {
+            saveFlag = true;
+        }
+        if(message.equals("/saveoff")) {
+            saveFlag = false;
+        }
+        if(message.equals("/fileclean")) {
+            FileWriter fstream1 = new FileWriter(getUserName()+".txt");// конструктор с одним параметром - для перезаписи
+            BufferedWriter out1 = new BufferedWriter(fstream1); //  создаём буферезированный поток
+            out1.write(""); // очищаем, перезаписав поверх пустую строку
+            out1.close(); // закрываем
+        }
+        if(message.equals("/onstupidbot")) {
+            stupidAnswer=true;
+        }
+        if(message.equals("/offstupidbot")) {
+            stupidAnswer=false;
+        }
+        if(message.equals("/loaddialog")) {
+            return loadHistory();
+        }
+        return temp;
     }
 
     @Override
@@ -130,12 +199,45 @@ public class ChatBot extends Bot {
 
     @Override
     public void addHistory(String message) {
+        try(FileWriter writer = new FileWriter(getUserName()+".txt", true))
+        {
+            // запись всей строки
+            Date date = new Date();
+            SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy" );
+            String text = "Дата переписки : " + formatForDateNow.format(date) + "\n" + message;
+            writer.write(text);
+            writer.flush();
+            writer.close();
+        }
+        catch(IOException ex){
 
+            System.out.println(ex.getMessage());
+        }
     }
 
     @Override
-    public void loadHistory(String message) {
-
+    public String loadHistory() {
+        String[] temp = new String[1];
+        String result = new String();
+        FileReader fr= null;
+        try {
+            fr = new FileReader(getUserName()+".txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Scanner scan = new Scanner(fr);
+        while (scan.hasNextLine()) {
+            temp[0] = scan.nextLine();
+            result+=temp[0] +"\n";
+        }
+        return result;
     }
 
+    public boolean isSaveFlag() {
+        return saveFlag;
+    }
+
+    public void setSaveFlag(boolean saveFlag) {
+        this.saveFlag = saveFlag;
+    }
 }

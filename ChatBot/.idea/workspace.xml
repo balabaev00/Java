@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/information.csv" beforeDir="false" afterPath="$PROJECT_DIR$/information.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChatBot/sample/Greeting.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChatBot/sample/Greeting.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ChatBot/sample/Bot.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChatBot/sample/Bot.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ChatBot/sample/PrimaryWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChatBot/sample/PrimaryWindow.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Bot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/ChatBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ChatBot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/PrimaryWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/PrimaryWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/primaryWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/primaryWindow.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +134,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="sample.*" />
+          <option name="PATTERN" value="parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -152,7 +150,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="sample.*" />
+          <option name="PATTERN" value="parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -233,61 +231,70 @@
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="552" y="219" key="#Project_Structure/0.40.1920.1040@0.40.1920.1040" timestamp="1586485096974" />
-    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser" timestamp="1586918853833">
+    <state x="690" y="316" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1588239613445">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser/0.40.1920.1040@0.40.1920.1040" timestamp="1586918853833" />
+    <state x="690" y="316" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1588239613445" />
+    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser" timestamp="1588244263954">
+      <screen x="0" y="40" width="1920" height="1040" />
+    </state>
+    <state x="939" y="251" key="#com.intellij.ide.util.MemberChooser/0.40.1920.1040@0.40.1920.1040" timestamp="1588244263954" />
     <state x="690" y="308" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586753614889">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="690" y="308" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.40.1920.1040@0.40.1920.1040" timestamp="1586753614889" />
-    <state x="739" y="302" key="FileChooserDialogImpl" timestamp="1586659831966">
+    <state x="739" y="302" key="FileChooserDialogImpl" timestamp="1588248501772">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state x="739" y="302" key="FileChooserDialogImpl/0.40.1920.1040@0.40.1920.1040" timestamp="1586659831966" />
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1586921504747">
+    <state x="739" y="302" key="FileChooserDialogImpl/0.40.1920.1040@0.40.1920.1040" timestamp="1588248501772" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504747" />
-    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1586921504747">
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.center/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504747" />
-    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1586921504746">
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.left/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504746" />
-    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1586921504747">
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.right/0.40.1920.1040@0.40.1920.1040" timestamp="1586921504747" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586765551741">
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1586765551741">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1586765551741">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1586765551741">
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1588248505391">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.40.1920.1040@0.40.1920.1040" timestamp="1586765551741" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.40.1920.1040@0.40.1920.1040" timestamp="1588248505391" />
     <state x="656" y="292" width="607" height="536" key="find.popup" timestamp="1586572996062">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="656" y="292" width="607" height="536" key="find.popup/0.40.1920.1040@0.40.1920.1040" timestamp="1586572996062" />
-    <state x="342" y="263" key="new project wizard" timestamp="1586659833571">
+    <state x="342" y="263" key="new project wizard" timestamp="1588248503579">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
-    <state x="342" y="263" key="new project wizard/0.40.1920.1040@0.40.1920.1040" timestamp="1586659833571" />
+    <state x="342" y="263" key="new project wizard/0.40.1920.1040@0.40.1920.1040" timestamp="1588248503579" />
     <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1586570287241">
       <screen x="0" y="40" width="1920" height="1040" />
     </state>
     <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/0.40.1920.1040@0.40.1920.1040" timestamp="1586570287241" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ChatBot$Main.ic" NAME="Main Coverage Results" MODIFIED="1588237920181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>parser.*</FILTER>
+    </SUITE>
   </component>
 </project>

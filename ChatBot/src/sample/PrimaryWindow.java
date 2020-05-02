@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +11,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PrimaryWindow {
 
@@ -31,9 +33,31 @@ public class PrimaryWindow {
 
     @FXML
     private void send() {
-        String userMessage = bob.getUserName()+" : " + messageField.getText() + "\n";
+        Date date = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
+        String userMessage = "[" + formatForDateNow.format(date) + "]" + " " + bob.getUserName()+" : " + messageField.getText() + "\n";
         textArea.setText(textArea.getText() + userMessage); // Отправка сообщения пользователя
-        String botMessage = bob.getBotName() + " : " + bob.say(messageField.getText()) + "\n";
+        if(messageField.getText().equals("/saveon") || messageField.getText().equals("/saveoff") ||
+                messageField.getText().equals("/fileclean") || messageField.getText().equals("/onstupidbot") ||
+                messageField.getText().equals("/offstupidbot") || messageField.getText().equals("/loaddialog")) {
+            if(messageField.getText().equals("/loaddialog")) {
+                try {
+                    textArea.setText(bob.checkFunction(messageField.getText()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                messageField.setText("");
+                return;
+            }
+            else {
+                try {
+                    bob.checkFunction(messageField.getText());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        String botMessage = "[" + formatForDateNow.format(date) + "]" + " " + bob.getBotName() + " : " + bob.say(messageField.getText()) + "\n";
         textArea.setText(textArea.getText() + botMessage);
         messageField.setText("");
     }
@@ -60,6 +84,8 @@ public class PrimaryWindow {
 
     @FXML
     private void close() { // Закрытие программы
+        if(bob.isSaveFlag())
+            bob.addHistory(textArea.getText());
         Stage stage = (Stage) mainAnchor.getScene().getWindow();
         stage.close();
     }

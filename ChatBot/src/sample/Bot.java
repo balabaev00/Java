@@ -15,7 +15,7 @@ public abstract class Bot {
 
     public abstract String loadName() throws FileNotFoundException;
     public abstract void addHistory(String message);
-    public abstract void loadHistory(String message);
+    public abstract String loadHistory();
     public abstract String say(String message);
 
     public ArrayList<String> getHistory() {
