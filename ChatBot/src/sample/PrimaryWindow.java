@@ -1,19 +1,25 @@
 package sample;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.swing.text.html.ImageView;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 public class PrimaryWindow {
 
@@ -33,6 +39,9 @@ public class PrimaryWindow {
 
     @FXML
     private void send() {
+        if(messageField.getText().equals("") ) {
+            return;
+        }
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
         String userMessage = "[" + formatForDateNow.format(date) + "]" + " " + bob.getUserName()+" : " + messageField.getText() + "\n";
@@ -80,6 +89,15 @@ public class PrimaryWindow {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        //Обработка клавиш
+        messageField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    send();
+                }
+            }
+        });
     }
 
     @FXML

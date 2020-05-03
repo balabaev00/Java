@@ -1,11 +1,16 @@
 package sample;
 
+import org.jsoup.*;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import parser.MatchParser;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+
 
 public class ChatBot extends Bot {
 
@@ -97,6 +102,8 @@ public class ChatBot extends Bot {
         put("/fileclean","fileclean");
         put("/onstupidbot","onstupidbot");
         put("/offstupidbot","offstupidbot");
+        put("/dollar","coursedollar");
+        put("/euro","courseeuro");
     }};
 
     final Map<String, String> answersByKeys = new HashMap<String, String>() {{
@@ -112,12 +119,22 @@ public class ChatBot extends Bot {
         put("information","\nСписок команд : \n" + "/info - информация о всех командах.\n" +
                 "/saveon - включить сохранение диалога.\n" + "/saveoff - отключить сохранение диалога.\n" +
                  "/fileclean - очищение текстового файла.\n" + "/onstupidbot - включает глупого бота.\n" +
-                "/offstupidbot - выключает глупого бота.\n" + "/loaddialog - загрузить диалог из файла\n");
+                "/offstupidbot - выключает глупого бота.\n" + "/loaddialog - загрузить диалог из файла\n" + "/dollar - курс доллара.\n" + "/euro - курс евро.\n");
         put("saveon","Сохранение диалога включено.");
         put("saveoff","Сохранение диалога выключено.");
         put("fileclean","Текстовый файл очищен.");
         put("onstupidbot","Глупый бот включен.");
         put("offstupidbot","Глупый бот выключен.");
+        try {
+            put("coursedollar",readCourse(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            put("courseeuro",readCourse(1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }};
 
     public ChatBot() {
@@ -239,5 +256,14 @@ public class ChatBot extends Bot {
 
     public void setSaveFlag(boolean saveFlag) {
         this.saveFlag = saveFlag;
+    }
+
+    public String readCourse(int i) throws IOException {
+        Document doc = Jsoup.connect("http://mfd.ru/currency/?currency=USD").get();
+        Elements elements = doc.getElementsByAttributeValue("class", "mfd-master-header-left");
+        Element element1 = elements.get(0);
+        String url = elements.attr("href");
+        String title = element1.child(i).text();
+        return title;
     }
 }
