@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -19,6 +20,8 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED); // Убираем кнопки (Закрыть,свернуть и т.п)
         primaryStage.setTitle("Боб помощник");
         primaryStage.setScene(new Scene(root, width, height));
+        Image applicationIcon = new Image(getClass().getResourceAsStream("/image/icon.png"));
+        primaryStage.getIcons().add(applicationIcon);
         primaryStage.show();
     }
 
